@@ -20,7 +20,8 @@ GLOBAL_CONFIG_FILE_MODE = stat.S_IFREG | stat.S_IRUSR | stat.S_IWUSR
 
 # Default config
 DEFAULT_CONFIG = {
-    'api_key': None
+    'api_key': None,
+    'url': None
 }
 
 
@@ -74,19 +75,26 @@ def get_setting(name):
     return os.environ.get(env_var_name, value)
 
 
-def notify_mattermost(msg, channel=None, host='drago', api_key=None):
+def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None):
 
     if api_key is None:
         api_key = get_setting('api_key')
-
     assert api_key, (
-        "No API key was provided for Mattermost. It can either be passed by "
-        "env variable MATTERHOOK_API_KEY, or set in a config file.\n"
-        "See README.md for more info."
+        "No API key was provided for Mattermost. It can either be passed "
+        "directly to the function, by env variable MATTERHOOK_API_KEY, or "
+        "set in a config file.\nSee README.md for more info."
+    )
+
+    if url is None:
+        url = get_setting('url')
+    assert url, (
+        "No URL was provided for Mattermost. It can either be passed "
+        "directly to the function, by env variable MATTERHOOK_URL, or "
+        "set in a config file.\nSee README.md for more info."
     )
 
     # mandatory parameters are url and your webhook API key
-    mwh = Webhook('https://mattermost.inria.fr', api_key)
+    mwh = Webhook(url, api_key)
 
     payload = {}
     payload['author_name'] = host
@@ -103,5 +111,5 @@ def notify_mattermost(msg, channel=None, host='drago', api_key=None):
 if __name__ == '__main__':
     notify_mattermost(
         "Bitus!",
-        channel='@mlemorva'
+        channel='@thmoreau'
     )
