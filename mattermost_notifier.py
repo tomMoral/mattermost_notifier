@@ -99,8 +99,8 @@ def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None):
     payload = {}
     payload['author_name'] = host
     payload['thumb_url'] = (
-        'https://raw.githubusercontent.com/tomMoral/mattermost_notifier/'
-        f'1356541d3cfff2745ffea55af54c9ff7ea6e18ae/icons/{host}.png'
+        'https://raw.githubusercontent.com/tomMoral/mattermost_notifier'
+        f'/main/icons/{host}.png'
     )
     payload['text'] = msg
 
