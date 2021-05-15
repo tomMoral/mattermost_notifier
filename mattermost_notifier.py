@@ -110,6 +110,6 @@ def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None):
 
 if __name__ == '__main__':
     notify_mattermost(
-        "Bitus!",
+        "I finished my computations!",
         channel='@thmoreau'
     )
