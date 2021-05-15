@@ -76,6 +76,26 @@ def get_setting(name):
 
 
 def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None):
+    """Send a message on mattermost.
+
+    Parameters
+    ----------
+    msg : str
+        Message to display on mattermost.
+    channel : str | None
+        Mattermost channel to display the message on. If None, this message
+        will be sent to the default channel for the webhook.
+    host : str
+        Name of the bot sending the message. This will be used to find the bot
+        icon in `icons` that should be a png file.
+    url : str | None
+        Url of the mattermost server. If it is none, it should be provided
+        either through an env variable MATTERHOOK_URL or in the config file.
+    api_key : str | None
+        API key of the mattermost server. If it is none, it should be
+        provided either through an env variable MATTERHOOK_API_KEY or
+        through the config file.
+    """
 
     if api_key is None:
         api_key = get_setting('api_key')
