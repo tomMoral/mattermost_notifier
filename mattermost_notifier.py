@@ -95,7 +95,7 @@ def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None, *
         API key of the mattermost server. If it is none, it should be
         provided either through an env variable MATTERHOOK_API_KEY or
         through the config file.
-    kwargs
+    **kwargs
         Additional keyword arguments you can pass to the payload.
         Overwrites existing arguments.
         See https://docs.mattermost.com/developer/message-attachments.html
