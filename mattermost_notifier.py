@@ -75,7 +75,7 @@ def get_setting(name):
     return os.environ.get(env_var_name, value)
 
 
-def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None):
+def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None, **kwargs):
     """Send a message on mattermost.
 
     Parameters
@@ -95,6 +95,10 @@ def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None):
         API key of the mattermost server. If it is none, it should be
         provided either through an env variable MATTERHOOK_API_KEY or
         through the config file.
+    **kwargs
+        Additional keyword arguments you can pass to the payload.
+        Overwrites existing arguments.
+        See https://docs.mattermost.com/developer/message-attachments.html
     """
 
     if api_key is None:
@@ -116,13 +120,15 @@ def notify_mattermost(msg, channel=None, host='drago', url=None, api_key=None):
     # mandatory parameters are url and your webhook API key
     mwh = Webhook(url, api_key)
 
-    payload = {}
-    payload['author_name'] = host
-    payload['thumb_url'] = (
-        'https://raw.githubusercontent.com/tomMoral/mattermost_notifier'
-        f'/main/icons/{host}.png'
-    )
-    payload['text'] = msg
+    payload = {
+        'author_name': host,
+        'thumb_url': (
+            'https://raw.githubusercontent.com/tomMoral/mattermost_notifier'
+            f'/main/icons/{host}.png'
+        ),
+        'text': msg
+    }
+    payload.update(kwargs)
 
     # send a message to the API_KEY's channel
     mwh.send(attachments=[payload], channel=channel)
